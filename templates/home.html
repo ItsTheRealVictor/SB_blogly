@@ -8,5 +8,14 @@
 </head>
 <body>
     <h1>Welcome to the Victor Blogly!</h1>
+    <h3>These are our users</h3>
+    <ul>
+       {% for user in users %}
+            <li><a href=""></a>{{user.first_name}} {{user.last_name}}</li>            
+        {% endfor %}
+    </ul>
+    <form action="/add_user">
+        <button>Add a user</button>
+    </form>
 </body>
 </html>
