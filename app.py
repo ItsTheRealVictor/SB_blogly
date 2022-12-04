@@ -70,6 +70,11 @@ def add_user():
 @app.route('/edit_user<int:user_id>')
 def edit_form(user_id):
     user=User.get_by_id(user_id)
+    
+    user.first_name = request.form.get('first_name')
+    user.last_name = request.form.get('last_name')
+    user.image_url = request.form.get('image_url')
+    
     return render_template('edit_user.html', user=user)
 
 @app.route('/edit', methods=['POST'])

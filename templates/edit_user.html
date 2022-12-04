@@ -10,15 +10,15 @@
 </head>
 <body>
     <h1>Edit {{user.first_name}}'s Info</h1>
-    <form action="/edit" method="POST">
+    <form action="/" method="POST">
         <label for="first_name">User's first name:</label>
-        <input type="text" name="first_name" placeholder="{{user.first_name}}">
+        <input type="text" name="first_name" placeholder="first name">
         <br>
         <label for="last_name">User's last name:</label>
-        <input type="text" name="last_name" placeholder="{{user.last_name}}">
+        <input type="text" name="last_name" placeholder="last name">
         <br>
         <label for="image_url">add a URL for your profile picture</label>
-        <input type="text" name="image_url" placeholder="{{user.image_url}}">
+        <input type="text" name="image_url" placeholder="image url">
         <button>Update user!</button>
     </form>
 
