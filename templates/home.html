@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
     <title>Victor's Blogly Project</title>
 </head>
 <body>
@@ -11,7 +12,7 @@
     <h3>These are our users</h3>
     <ul>
        {% for user in users %}
-            <li><a href=""></a>{{user.first_name}} {{user.last_name}}</li>            
+            <li><a href="/{{user.id}}">{{user.first_name}} {{user.last_name}}</a></li>            
         {% endfor %}
     </ul>
     <form action="/add_user">
