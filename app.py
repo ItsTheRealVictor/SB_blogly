@@ -4,6 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blogly.db'
+app.config['SQLALCHEMY_BINDS'] = {'testDB' : 'sqlite:///test_blogly.db'}
+
+
 
 db = SQLAlchemy(app)
 app.app_context().push()
@@ -34,10 +37,32 @@ class User(db.Model):
     @classmethod
     def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
+
+class TestUser(db.Model):
+    __tablename__ = 'testDB'
+    __bind_key__ = 'testDB'
     
-# from models import full_names
-# db.session.add_all(full_names)
-# db.session.commit()
+    PLACEHOLDER = 'https://www.clipartmax.com/png/middle/340-3400182_special-school-nurse-placeholder-person.png'
+
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    
+    first_name = db.Column(db.String(50), nullable=False, unique=True)
+    
+    last_name = db.Column(db.String(50), nullable=False, unique=False)
+    
+    # no idea how to do this, stackoverflow isn't showing anything compelling. I need to ask a tutor
+    # In the meantime, this is a placeholder
+    image_url = db.Column(db.String(50), nullable=False, unique=False, default=PLACEHOLDER)
+    
+    def __repr__(self):
+        return f'User #{self.id}: Full name is {self.first_name} {self.last_name}'
+    
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+    
+
 
 @app.route('/')
 def home():

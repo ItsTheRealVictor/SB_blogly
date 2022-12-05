@@ -3,3 +3,5 @@ venv/
 migrations/
 blogly.db
 blogly - Copy.db
+.vscode/
+test_blogly.db
