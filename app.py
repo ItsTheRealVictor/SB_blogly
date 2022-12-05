@@ -34,6 +34,9 @@ class User(db.Model):
     def __repr__(self):
         return f'User #{self.id}: Full name is {self.first_name} {self.last_name}'
     
+    def greet(self):
+        return f'Greetings to you, {self.first_name} {self.last_name}'
+    
     @classmethod
     def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
@@ -57,6 +60,9 @@ class TestUser(db.Model):
     
     def __repr__(self):
         return f'User #{self.id}: Full name is {self.first_name} {self.last_name}'
+    
+    def greet(self):
+        return f'Greetings to you, {self.first_name} {self.last_name}'
     
     @classmethod
     def get_by_id(cls, id):
