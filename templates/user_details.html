@@ -20,5 +20,15 @@
     <form action="/delete/{{user.id}}">
         <button>delete user</button>
     </form>
+
+    <h1>Posts</h1>
+    <form action="/add_post">
+        <ul>
+            {% for post in posts %}
+                <li>{{post}}</li>
+            {% endfor %}
+        </ul>
+        <button>Add post</button>
+    </form>
 </body>
 </html>

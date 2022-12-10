@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, redirect
 from flask_migrate import Migrate, migrate
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime as dt
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blogly.db'
@@ -40,6 +42,32 @@ class User(db.Model):
     @classmethod
     def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
+
+
+class Post(db.Model):
+    
+    __tablename__ = 'posts'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    
+    title = db.Column(db.Text, nullable=False)
+    
+    content = db.Column(db.Text, nullable=False)
+    
+    created_at = db.Column(db.Text, nullable=False, default=dt.utcnow)
+    
+    user_id = db.Column(db.Text, db.ForeignKey('users.id'))
+
+
+
+
+
+
+
+
+
+
+
 
 class TestUser(db.Model):
     __tablename__ = 'testDB'
@@ -136,3 +164,8 @@ def show_user_details(user_id):
     
     user = User.query.get(user_id)
     return render_template('user_details.html', user=user)
+
+
+@app.route('/add_post')
+def add_post():
+    return render_template('add_post.html')
