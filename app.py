@@ -29,9 +29,9 @@ class User(db.Model):
     
     last_name = db.Column(db.String(50), nullable=False, unique=False)
     
-    # no idea how to do this, stackoverflow isn't showing anything compelling. I need to ask a tutor
-    # In the meantime, this is a placeholder
     image_url = db.Column(db.String(50), nullable=False, unique=False, default=PLACEHOLDER)
+    
+    posts = db.relationship('Post', backref='user', cascade='all, delete-orphan')
     
     def __repr__(self):
         return f'User #{self.id}: Full name is {self.first_name} {self.last_name}'
