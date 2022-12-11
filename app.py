@@ -56,7 +56,7 @@ class Post(db.Model):
     
     created_at = db.Column(db.Text, nullable=False, default=dt.utcnow)
     
-    user_id = db.Column(db.Text, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Text, db.ForeignKey('users.id'), nullable=False)
 
 
 
@@ -166,6 +166,29 @@ def show_user_details(user_id):
     return render_template('user_details.html', user=user)
 
 
-@app.route('/add_post')
-def add_post():
-    return render_template('add_post.html')
+@app.route('/<int:user_id>/posts/new')
+def posts(user_id):
+    posts = Post.query.all()
+    user = User.query.get_or_404(user_id)
+    
+    return render_template('posts/new.html', user=user, posts=posts)
+
+@app.route('/<int:user_id>/posts/new', methods=['POST'])
+def add_post(user_id):
+    
+    user = User.query.get_or_404(user_id)
+    post_title = request.form.get('post_title')
+    post_content = request.form.get('post_content')
+    
+    
+    post_to_add = Post(title=post_title, content=post_content, user_id=user_id)
+    
+    db.session.add(post_to_add)
+    db.session.commit()
+    
+    return redirect(f'/{user.id}')
+
+@app.route('/<int:post_id>/posts')
+def show_posts(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('posts/show.html', post=post)

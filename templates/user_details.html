@@ -22,9 +22,9 @@
     </form>
 
     <h1>Posts</h1>
-    <form action="/add_post">
+    <form action="/{{user.id}}/posts/new" method="">
         <ul>
-            {% for post in posts %}
+            {% for post in user.posts %}
                 <li>{{post}}</li>
             {% endfor %}
         </ul>
