@@ -25,10 +25,13 @@
     <form action="/{{user.id}}/posts/new" method="">
         <ul>
             {% for post in user.posts %}
-                <li>{{post.title}}</li>
+                <li><a href="/posts/post_id_{{post.id}}">{{post.title}}</a></li>
             {% endfor %}
         </ul>
         <button>Add post</button>
     </form>
+<br>
+<br>
+    <a href="/">Go back home</a>
 </body>
 </html>
