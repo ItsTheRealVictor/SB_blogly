@@ -205,14 +205,24 @@ def show_user_post(post_id):
     
     return render_template('/posts/show.html', post=post)
 
-@app.route('/edit_post_<int:post_id>', methods=['POST'])
+@app.route('/posts/edit_post_<int:post_id>')
+def show_edit_post_form(post_id):
+    post = Post.query.get_or_404(post_id)
+    print(post)
+    return render_template('posts/edit.html', post=post)
+
+
+@app.route('/posts/edit_post_<int:post_id>', methods=['POST'])
 def edit_post(post_id):
     post = Post.query.get_or_404(post_id)
     
     post.title = request.form.get('title')
     post.content = request.form.get('content')
     
-    return render_template('/')
+    db.session.add(post)
+    db.session.commit()
+    
+    return redirect(f'/posts/post_id_{post_id}')
     
     
     

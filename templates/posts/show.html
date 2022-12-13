@@ -11,11 +11,14 @@
     <p>{{post.title}}</p>
     <p>{{post.content}}</p>
 
-    <form action="/edit_post_{{post.id}}">
+    <form action="/posts/edit_post_{{post.id}}">
         <button>edit post</button>
     </form>
     <form action="/">
         <button>delete</button>
+    </form>
+    <form action="/{{post.user_id}}">
+    <button>Go back to user info</button>
     </form>
 </body>
 </html>
