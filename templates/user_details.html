@@ -14,7 +14,7 @@
         <img src="{{user.image_url}}" alt="" class="user_img">
         <li>Name: {{user.first_name}} {{user.last_name}}</li>
     </ul>
-    <form action="/edit_user{{user.id}}" method=""> 
+    <form action="/edit_user/{{user.id}}" method=""> 
         <button>edit user info</button>
     </form>
     <form action="/delete/{{user.id}}">
@@ -30,8 +30,7 @@
         </ul>
         <button>Add post</button>
     </form>
-<br>
-<br>
+
     <a href="/">Go back home</a>
 </body>
 </html>

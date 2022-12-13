@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, redirect
+from flask_debugtoolbar import DebugToolbarExtension
 from flask_migrate import Migrate, migrate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime as dt
@@ -8,7 +9,10 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blogly.db'
 app.config['SQLALCHEMY_BINDS'] = {'testDB' : 'sqlite:///test_blogly.db'}
 
-
+app.debug = True
+app.config['SECRET_KEY'] = 'secret'
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+toolbar = DebugToolbarExtension(app)
 
 db = SQLAlchemy(app)
 app.app_context().push()
@@ -57,6 +61,10 @@ class Post(db.Model):
     created_at = db.Column(db.Text, nullable=False, default=dt.utcnow)
     
     user_id = db.Column(db.Text, db.ForeignKey('users.id'), nullable=False)
+    
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
 
 
 
@@ -126,31 +134,28 @@ def add_user():
     
     return redirect('/')
 
-@app.route('/edit_user<int:user_id>')
-def edit_form(user_id):
-    user=User.get_by_id(user_id)
-    
-    user.first_name = request.form.get('first_name')
-    user.last_name = request.form.get('last_name')
-    user.image_url = request.form.get('image_url')
-    
+@app.route('/edit_user/<int:user_id>')
+def edit_user(user_id):
+    user = User.query.get_or_404(user_id)
+    print(user)
     return render_template('edit_user.html', user=user)
 
-@app.route('/edit', methods=['POST'])
-def edit_user():
-    # pass
-    # new_first_name = User.query.filter_by(first_name=request.form.get('first_name')).first()
-    # new_first_name.first_name = 'test'
+@app.route('/edit_user/<int:user_id>', methods=['POST'])
+def edit_user_form(user_id):
+    user=User.query.get_or_404(user_id)
     
-    # last_name = request.form.get('last_name')
-    # image_url = request.form.get('image_url')
+    user.first_name = request.form['first_name']
+    user.last_name = request.form['last_name']
+    user.image_url = request.form['image_url']
+    if not user.image_url:
+        user.image_url = User.PLACEHOLDER
     
-    # user_to_add = User(first_name=first_name, last_name=last_name, image_url=image_url)
+    db.session.add(user)
+    db.session.commit()
     
-    # db.session.add(user_to_add)
-    # db.session.commit()
-    
-    return 'test'
+    return redirect(f'/')
+
+
     
 @app.route('/delete/<int:user_id>')
 def delete_user(user_id):
@@ -200,6 +205,16 @@ def show_user_post(post_id):
     
     return render_template('/posts/show.html', post=post)
 
-@app.route('/edit_post')
-def edit_post():
-    return 'lets edit a post'
+@app.route('/edit_post_<int:post_id>', methods=['POST'])
+def edit_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    
+    post.title = request.form.get('title')
+    post.content = request.form.get('content')
+    
+    return render_template('/')
+    
+    
+    
+    
+    return render_template('posts/edit.html', post=post)

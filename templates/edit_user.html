@@ -10,7 +10,7 @@
 </head>
 <body>
     <h1>Edit {{user.first_name}}'s Info</h1>
-    <form action="/" method="POST">
+    <form method="POST">
         <label for="first_name">User's first name:</label>
         <input type="text" name="first_name" placeholder="first name">
         <br>
@@ -19,7 +19,7 @@
         <br>
         <label for="image_url">add a URL for your profile picture</label>
         <input type="text" name="image_url" placeholder="image url">
-        <button>Update user!</button>
+        <button type="submit">Update user!</button>
     </form>
 
     <a href="/">go back home</a>
