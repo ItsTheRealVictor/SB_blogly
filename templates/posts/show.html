@@ -14,11 +14,13 @@
     <form action="/posts/edit_post_{{post.id}}">
         <button>edit post</button>
     </form>
-    <form action="/">
-        <button>delete</button>
+    
+    <form action="/delete_post_{{post.id}}">
+        <button>delete post</button>
     </form>
+
     <form action="/{{post.user_id}}">
-    <button>Go back to user info</button>
+        <button>Go back to user info</button>
     </form>
 </body>
 </html>
