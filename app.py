@@ -108,7 +108,7 @@ class TestUser(db.Model):
         return cls.query.filter_by(id=id).first()
     
 
-
+# USER-RELATED ROUTES
 @app.route('/')
 def home():
     
@@ -157,8 +157,6 @@ def edit_user_form(user_id):
     db.session.commit()
     
     return redirect(f'/')
-
-
     
 @app.route('/delete/<int:user_id>')
 def delete_user(user_id):
@@ -173,7 +171,7 @@ def show_user_details(user_id):
     user = User.query.get(user_id)
     return render_template('user_details.html', user=user)
 
-
+# POST RELATED ROUTES
 @app.route('/<int:user_id>/posts/new')
 def posts(user_id):
     posts = Post.query.all()
@@ -227,9 +225,6 @@ def edit_post(post_id):
     
     return redirect(f'/posts/post_id_{post_id}')
     
-
-    
-    
 @app.route('/delete_post_<int:post_id>')
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
@@ -238,3 +233,11 @@ def delete_post(post_id):
     db.session.commit()
     
     return redirect(f'/{user_id}')
+
+
+# TAG RELATED ROUTES
+
+@app.route('/tags')
+def show_tag_info():
+    tags = Tag.query.all()
+    return render_template('tags.html', tags=tags)

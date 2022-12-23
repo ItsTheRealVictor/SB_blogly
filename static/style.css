@@ -1,3 +1,14 @@
+body{
+    background-color:steelblue;
+}
+
+.navbar-custom{
+    background-color:darkslategrey;
+}
+
+
+
+
 .user_img{
     height: 50px;
     width: 50px;

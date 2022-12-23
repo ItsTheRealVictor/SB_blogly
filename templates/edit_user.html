@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style.css">
-
-    <title>Document</title>
-</head>
+{% extends 'base.html' %}
 <body>
-    <h1>Edit {{user.first_name}}'s Info</h1>
-    <form method="POST">
-        <label for="first_name">User's first name:</label>
-        <input type="text" name="first_name" placeholder="first name">
-        <br>
-        <label for="last_name">User's last name:</label>
-        <input type="text" name="last_name" placeholder="last name">
-        <br>
-        <label for="image_url">add a URL for your profile picture</label>
-        <input type="text" name="image_url" placeholder="image url">
-        <button type="submit">Update user!</button>
-    </form>
-
-    <a href="/">go back home</a>
+    {% block content %}
+        
+        <h1>Edit {{user.first_name}}'s Info</h1>
+        <form method="POST">
+            <label for="first_name">User's first name:</label>
+            <input type="text" name="first_name" placeholder="first name">
+            <br>
+            <label for="last_name">User's last name:</label>
+            <input type="text" name="last_name" placeholder="last name">
+            <br>
+            <label for="image_url">add a URL for your profile picture</label>
+            <input type="text" name="image_url" placeholder="image url">
+            <button type="submit">Update user!</button>
+        </form>
+        
+        <a href="/">go back home</a>
+    {% endblock %}
 </body>
 </html>

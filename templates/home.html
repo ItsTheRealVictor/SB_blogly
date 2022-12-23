@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style.css">
-    <title>Victor's Blogly Project</title>
-</head>
-<body>
-    <h1>Welcome to the Victor Blogly!</h1>
-    <h3>These are our users</h3>
-    <ul>
-       {% for user in users %}
-            <li><a href="/{{user.id}}">{{user.first_name}} {{user.last_name}}</a></li>            
+{% extends 'base.html' %}
+<html>
+    <body>      
+        {% block content %}
+        
+        <h1>Welcome to the Victor Blogly!</h1>
+        <h3>These are our users</h3>
+        <ul>
+        {% for user in users %}
+        <li><a href="/{{user.id}}">{{user.first_name}} {{user.last_name}}</a></li>            
         {% endfor %}
     </ul>
-    <form action="/add_user">
-        <button>Add a user</button>
-    </form>
+            <form action="/add_user">
+                <button>Add a user</button>
+            </form>
+
+    {% endblock content %}
+
 </body>
 </html>
