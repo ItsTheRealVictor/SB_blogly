@@ -240,12 +240,12 @@ def delete_post(post_id):
 @app.route('/tags')
 def show_tag_info():
     tags = Tag.query.all()
-    return render_template('tags.html', tags=tags)
+    return render_template('/tags/tags.html', tags=tags)
 
 @app.route('/tags/new')
 def new_tag_form():
     posts = Post.query.all()
-    return render_template('new_tags.html', posts=posts)
+    return render_template('/tags/new_tags.html', posts=posts)
 
 @app.route('/tags/new', methods=['GET', 'POST'])
 def create_new_tag():
@@ -257,3 +257,17 @@ def create_new_tag():
     db.session.add(new_tag)
     db.session.commit()
     return redirect('/tags')
+
+@app.route('/tags/<int:tag_id>')
+def show_tags(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    return render_template('/tags/show_tags.html', tag=tag)
+
+@app.route('/tags/<int:tag_id>/edit')
+def edit_tag_form(tag_id):
+    tag = Tag.query.get_or_404(tag_id)
+    posts = Post.query.all()
+    
+    return render_template('/tags/edit_tag.html', tag=tag, posts=posts)
+
+
