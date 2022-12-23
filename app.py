@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect
 from flask_debugtoolbar import DebugToolbarExtension
-from flask_migrate import Migrate, migrate
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime as dt
 
@@ -47,7 +47,6 @@ class User(db.Model):
     def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
 
-
 class Post(db.Model):
     
     __tablename__ = 'posts'
@@ -66,15 +65,19 @@ class Post(db.Model):
     def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
 
+class PostTag(db.Model):
+    __tablename__ = 'posts_tags'
+    
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True, autoincrement=True)
+    name = db.Column(db.Text, db.ForeignKey('tags.id'), nullable=False, unique=True)
 
-
-
-
-
-
-
-
-
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.Text, nullable=False, unique=True)
+    
+    posts = db.relationship('Post', secondary='posts_tags', backref='tags')
 
 
 class TestUser(db.Model):
