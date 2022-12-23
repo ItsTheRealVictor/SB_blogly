@@ -241,3 +241,19 @@ def delete_post(post_id):
 def show_tag_info():
     tags = Tag.query.all()
     return render_template('tags.html', tags=tags)
+
+@app.route('/tags/new')
+def new_tag_form():
+    posts = Post.query.all()
+    return render_template('new_tags.html', posts=posts)
+
+@app.route('/tags/new', methods=['GET', 'POST'])
+def create_new_tag():
+    
+    post_ids = request.form.getlist('posts')
+    posts = Post.query.filter(Post.id.in_(post_ids)).all()
+    new_tag = Tag(name=request.form['name'], posts=posts)
+    
+    db.session.add(new_tag)
+    db.session.commit()
+    return redirect('/tags')
