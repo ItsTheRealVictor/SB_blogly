@@ -3,9 +3,13 @@
     <body>
         {% block content %}
             
-        <h1>tag stuff goes here</h1>
+        <h1>These are all the tags</h1>
         
-        
+        {% for tag in tags %}
+            <p>{{tag.name}}</p>
+        {% endfor %}
+
+        <a href="/tags/new">Add a tag</a>
         
         
         

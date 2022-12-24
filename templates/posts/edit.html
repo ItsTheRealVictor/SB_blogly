@@ -1,23 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Edit {{post.title}}</h1>
-    <form method="POST">
-
-        <label for="title">Post title</label>
-        <textarea name="title" id="" cols="30" rows="10"></textarea>
-        <br>
-        <label for="content">Post content</label>
-        <textarea name="content" id="" cols="30" rows="10"></textarea>
-        <button type="submit">Edit Post</button>
-        <a href="/">cancel</a>
-
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+<html>
+    <body>
+        {% block content %}
+            
+        <h1>Edit {{post.title}}</h1>
+        <form method="POST">
+            
+            <label for="title">Post title</label>
+            <textarea name="title" id="" cols="30" rows="10"></textarea>
+            <br>
+            <label for="content">Post content</label>
+            <textarea name="content" id="" cols="30" rows="10"></textarea>
+            
+            <h1>Apply a tag</h1>
+            
+                {% for tag in tags %}
+                    <br>
+                    <input type="checkbox">
+                        {{tag.name}}
+                {% endfor %}
+            
+                <br>
+            <button type="submit">Edit Post</button>
+            <a href="/">cancel</a>
+            
+        </form>
+        {% endblock %}
+    </body>
+    </html>

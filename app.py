@@ -64,6 +64,11 @@ class Post(db.Model):
     @classmethod
     def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()
+    
+    @classmethod
+    def get_user(cls, user_id):
+        return cls.query.filter_by(user_id=user_id).first()
+    
 
 class PostTag(db.Model):
     __tablename__ = 'posts_tags'
@@ -194,6 +199,13 @@ def add_post(user_id):
     
     return redirect(f'/{user.id}')
 
+@app.route('/posts/show_all')
+def show_all_posts():
+    posts = Post.query.all()
+    users = User.query.all()
+    return render_template('/posts/show_all.html', posts=posts, users=users)
+
+
 @app.route('/<int:post_id>/posts')
 def show_posts(post_id):
     post = Post.query.get_or_404(post_id)
@@ -209,8 +221,8 @@ def show_user_post(post_id):
 @app.route('/posts/edit_post_<int:post_id>')
 def show_edit_post_form(post_id):
     post = Post.query.get_or_404(post_id)
-    print(post)
-    return render_template('posts/edit.html', post=post)
+    tags = Tag.query.all()
+    return render_template('posts/edit.html', post=post, tags=tags)
 
 
 @app.route('/posts/edit_post_<int:post_id>', methods=['POST'])
@@ -249,12 +261,11 @@ def new_tag_form():
 
 @app.route('/tags/new', methods=['GET', 'POST'])
 def create_new_tag():
+        
+    new_tag_name = request.form.get('tag_name')
+    tag_to_add = Tag(name=new_tag_name)
     
-    post_ids = request.form.getlist('posts')
-    posts = Post.query.filter(Post.id.in_(post_ids)).all()
-    new_tag = Tag(name=request.form['name'], posts=posts)
-    
-    db.session.add(new_tag)
+    db.session.add(tag_to_add)
     db.session.commit()
     return redirect('/tags')
 
