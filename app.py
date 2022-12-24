@@ -203,6 +203,7 @@ def add_post(user_id):
 def show_all_posts():
     posts = Post.query.all()
     users = User.query.all()
+
     return render_template('/posts/show_all.html', posts=posts, users=users)
 
 
@@ -231,6 +232,7 @@ def edit_post(post_id):
     
     post.title = request.form.get('title')
     post.content = request.form.get('content')
+    post.tag = request.form.get('tag_name')
     
     db.session.add(post)
     db.session.commit()

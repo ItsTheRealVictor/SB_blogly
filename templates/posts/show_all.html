@@ -7,16 +7,15 @@
             <h1>Here are all the posts</h1>    
             
             {% for post in posts %}
-                
+
                 <ul>
                     <li>
-                        <p><a href="/posts/post_id_{{post.id}}">{{post.title}} by user {{post.user_id}}</a></p>
+                        <p><a href="/posts/post_id_{{post.id}}">{{post.title}} by user {{post.user_id}} </a></p>
                     </li>
                 </ul>
-        
+
             {% endfor %}
-
-
+                    
 
 
 
