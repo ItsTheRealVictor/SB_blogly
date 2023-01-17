@@ -139,14 +139,7 @@ def edit_post(post_id):
     
     return redirect(f'/posts/post_id_{post_id}')
     
-
     
     
-@app.route('/delete_post_<int:post_id>')
-def delete_post(post_id):
-    post = Post.query.get_or_404(post_id)
-    user_id = post.user_id
-    db.session.delete(post)
-    db.session.commit()
     
-    return redirect(f'/{user_id}')
+    return render_template('posts/edit.html', post=post)
