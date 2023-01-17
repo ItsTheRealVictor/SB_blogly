@@ -55,7 +55,6 @@ class Post(db.Model):
     created_at = db.Column(db.Text, nullable=False, default=datetime.datetime.utcnow)
     
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    user = db.relationship('User', backref='posts')
     
     @classmethod
     def get_by_id(cls, id):
