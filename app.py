@@ -3,107 +3,22 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_migrate import Migrate, migrate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime as dt
+from models import db, connect_db, User, Post, PostTag, Tag, TestUser
+
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blogly.db'
-app.config['SQLALCHEMY_BINDS'] = {'testDB' : 'sqlite:///test_blogly.db'}
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/blogly'
+app.config['SQLALCHEMY_BINDS'] = {'testDB': 'sqlite:///test_blogly.db'}
 
 app.debug = True
 app.config['SECRET_KEY'] = 'secret'
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 toolbar = DebugToolbarExtension(app)
 
-db = SQLAlchemy(app)
+connect_db(app)
 app.app_context().push()
-
-migrate = Migrate(app, db)
-
-class User(db.Model):
-    '''A model of blog users'''
-    
-        
-    PLACEHOLDER = 'https://www.clipartmax.com/png/middle/340-3400182_special-school-nurse-placeholder-person.png'
-    
-    __tablename__ = 'users'
-    
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    
-    first_name = db.Column(db.String(50), nullable=False, unique=True)
-    
-    last_name = db.Column(db.String(50), nullable=False, unique=False)
-    
-    image_url = db.Column(db.String(50), nullable=False, unique=False, default=PLACEHOLDER)
-    
-    posts = db.relationship('Post', backref='user', cascade='all, delete-orphan')
-    
-    def __repr__(self):
-        return f'User #{self.id}: Full name is {self.first_name} {self.last_name}'
-    
-    def greet(self):
-        return f'Greetings to you, {self.first_name} {self.last_name}'
-    
-    @classmethod
-    def get_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
-
-
-class Post(db.Model):
-    
-    __tablename__ = 'posts'
-    
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    
-    title = db.Column(db.Text, nullable=False)
-    
-    content = db.Column(db.Text, nullable=False)
-    
-    created_at = db.Column(db.Text, nullable=False, default=dt.utcnow)
-    
-    user_id = db.Column(db.Text, db.ForeignKey('users.id'), nullable=False)
-    
-    @classmethod
-    def get_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
-
-
-
-
-
-
-
-
-
-
-
-
-class TestUser(db.Model):
-    __tablename__ = 'testDB'
-    __bind_key__ = 'testDB'
-    
-    PLACEHOLDER = 'https://www.clipartmax.com/png/middle/340-3400182_special-school-nurse-placeholder-person.png'
-
-    
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    
-    first_name = db.Column(db.String(50), nullable=False, unique=True)
-    
-    last_name = db.Column(db.String(50), nullable=False, unique=False)
-    
-    # no idea how to do this, stackoverflow isn't showing anything compelling. I need to ask a tutor
-    # In the meantime, this is a placeholder
-    image_url = db.Column(db.String(50), nullable=False, unique=False, default=PLACEHOLDER)
-    
-    def __repr__(self):
-        return f'User #{self.id}: Full name is {self.first_name} {self.last_name}'
-    
-    def greet(self):
-        return f'Greetings to you, {self.first_name} {self.last_name}'
-    
-    @classmethod
-    def get_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
-    
 
 
 @app.route('/')
